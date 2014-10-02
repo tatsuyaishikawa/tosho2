@@ -1,0 +1,48 @@
+
+@CHARSET "UTF-8";
+
+/* ログイン画面 */
+
+table, tr, td {
+	/*border: 1px solid; */
+	border-collapse: collapse;
+	padding: 5px;
+	
+}
+
+th{
+	/*border: 1px solid; */
+	border-collapse: collapse;
+	padding: 5px;	
+}
+
+	
+#login{
+	border: 10px solid red; 
+	text-align:center;
+	width:400px;
+	height:400px;
+}
+
+.centertext {
+	text-align:	center;	
+	
+}
+/*#register {
+	text-align:center;	
+	
+}
+*/
+#mybody{
+	text-align:left;
+}
+
+.register-center{
+text-align:center;	
+}
+
+
+h5 {
+	color: #ff0000;
+}
+
