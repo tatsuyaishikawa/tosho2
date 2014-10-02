@@ -2,25 +2,28 @@
 <html>
  <head>
  <title>活動確認サービス</title>
- <meta charset="UTF-8">
- <meta http-equiv="Content-Type" />
- <meta name="viewport" content="width=device-width,initial-scale=1.0" />
- <link rel="stylesheet" href="./style1.css" type="text/stylesheet" /> 
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+ <link rel="stylesheet" href="./pub_search.css" type="text/stylesheet" /> 
  </head>
- <body id="back">
+ <body>
+  <div id="iti">
+   <div id="yon">
   図書管理システム
+   </div>
+  <div id="kensaku">
+   <img id="gazou" src="" >
+   <div id="san">
    ログイン
-
-	<div id="container1">
-	 <div id="container2">
+   </div>
     <form action="hantei.php" method="POST">
      ユーザID<input type="text" name="ident" /><br/>
-     パスワード<input type="password" name="pass" /><br/>
+     パスワード<input type="password" name="pass" />
      <input type="submit" value="ログイン"/>
-     <input type="reset" value="消去" /><br/>
-     <a href="login_admin.php">管理者としてログイン</a>
+     <input type="reset" value="消去" />
     </form>
-	 </div>
-	</div>
+  </div>
+  </div>
  </body>
 </html>
+
+

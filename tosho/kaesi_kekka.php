@@ -1,92 +1,103 @@
-<!DOCTYPE>
 <html>
  <head>
  <title>図書管理システム</title>
- <link type="text/css" rel="stylesheet" href="style4.css" />
+ <link type="text/css" rel=stylesheet" href="pub_search.css" />
  <meta http-equiv="Content-Type"  content="text/html; charset=UTF-8" /> 
- <meta name="viewport" content="width=device-width,initial-scale=1.0" />
  <script type="text/javascript" src="./kadai1.js"></script>
- <!-- ce procedure est effectue pour enregistrer l'info de livre -->
- </head>
- 
- <body id="back">
-   検索結果一覧
+ <?php
+  function enre(){
 
-	<div id="container1">
-  <form action="kaesi_kanryo.php"  method="POST">
-   <a href="kaesi_kanryo.php"><input type="button" value="返す" /></a>
-   <a href="cancel.php"><input type="button" value="取り消し" /></a>
-   <a href="kaesi_search.php"><input type="button" value="戻る" /></a>
-   <a href="logout.php"><input type="button" value="ログアウト"/></a>
-  </form>
-		<div id="container2">
-<?php
- session_start();
-if(!isset($_SESSION['id'])){
-  header("Location: login.php");
- }
+   $bd=mysql_connect("127.0.0.1","root","agreable2");
+   mysql_select_db('tosho',$bd);
 
- $cou=0; /*一回目のみ<table>をechoで表示する*/ 
- $gaito=0;/*一冊も街頭する書籍がない場合を判定する*/
- $shoseki_id=$_POST['shoseki_id'];
- $id=$_SESSION['id'];
-
- $db=mysql_connect("127.0.0.1","root","agreable");
- mysql_select_db('tosho',$db);
-
- /*①本がkashidashiテーブルに存在するかを確認*/
- /* kashidashi テーブルではなく、ログインユーザが借りている本の一覧を見るのです*/
- $requ="select * from kashidashi where id='$id'";
- $apre=mysql_query($requ);
-
- /*もしデータがなければハンドルする*/
- if($apre==false){
-  echo "貸出テーブルにそのＩＤの書籍は存在しません";
-  include 'error.php';
-  exit();
- }
-
- while($row=mysql_fetch_array($apre)){
-   if($cou==0){
-    echo "<form><table border=\"10\" color=\"black\">";
-    echo "<tr><td>書籍ID</td><td>書籍名</td><td>分類</td><td>著者名</td><td>貸出状況</td></tr>";
+   /* 1*/
+    /* ① 
+   $requ='select * from uza';
+   $requ2='select * from books';*/
+   if(!$requ){
+     echo "ji";
    }
 
-   /* bookidが一致する、つまり借りている本である*/
-   if($row[1]==$shoseki_id){
-  
-    /*　街頭するbookidのデータをbooksテーブルから検索する*/ 
-    $requ1="select * from books where book_id='$shoseki_id'"; 
-    $resu1=mysql_query($requ1);
-    $row1=mysql_fetch_array($resu1);
+   $resu=mysql_query($requ) or die();
+
+   $cou=0;
+
+   while($row=mysql_fetch_array($resu)){
+	/* 2*/
+	 /* ② */
+        if($row[0]== $_POST['ident'] ||  $row[1]==$_POST['pass']){
+        }
+   }
+
+   while($row=mysql_fetch_array($resu)){
+	/* 2*/
+	 /* ② */
+        if($row[0]== $_POST['ident'] ||  $row[1]==$_POST['pass']){
+        }
+   }
+
+ ?>
+
+ <?php
  
-    /*表示*/
+   $bd=mysql_connect("127.0.0.1","root","agreable2");
+   mysql_select_db('tosho',$bd);
+
+   /* pre register into kashidashi table */
+   /* pour 1ere et 3 ieme champ , on ne rajoute rien */
+   /*$requ1="insert into kashidashi values(1,$_POST['bookid'],1,$_POST['title'],"","");";*/
+        $resu=mysql_query($requ1);
+        mysql_exec($resu);
+
+   include("error.php");
+   mysql_free_result($resu);
+   mysql_close($bd);
+
+  }
+ ?>
+ </head>
+ 
+ <body>
+  <div id="iti">
+   <div id="yon">
+   検索結果一覧
+   </div>
+  </div>
+
+<p> 
+<?php
+ $db=mysql_connect("127.0.0.1","root","agreable2");
+ mysql_select_db('tosho',$db);
+
+ $requ='select * from books';
+ $apre=mysql_query($requ);
+
+ $cou=0;
+ 
+ while($row=mysql_fetch_array($apre)){
+   if($cou==0){
+    echo "<table border=\"10\" color=\"black\">";
+   }
+
+   if($row[0]==$_POST['bookid']){
     echo "<tr>
-     <td>".$row1[0]."</td>
-     <td>".$row1[1]."</td>
-     <td>".$row1[2]."</td>
-     <td>".$row1[3]."</td>
-     <td>".$row1[4]."</td>
+     <td>".$row[0]."</td>
+     <td>".$row[1]."</td>
+     <td>".$row[2]."</td>
+     <td>".$row[3]."</td>
+     <td>".$row[4]."</td>
      </tr>";
-    
-    $gaito++;
     }
    
     $cou++;
    } 
-  /*本が一冊も存在しない*/
-  if($gaito==0){
-   echo "該当する書籍がありません。";
-   include "error.php";
-   mysql_close($db);
-   exit();
-   }
-   echo "</table>";
-  $_SESSION['shoseki_id']=$_POST['shoseki_id'];
+
+  /*echo "</table>";*/
   mysql_close($db);
 ?>    
+ </p> 
   <?php
-  echo "返しますか？";
+  echo "借りますか？";
   ?>
   <!--
   switch($_POST['modo']){
@@ -95,7 +106,18 @@ if(!isset($_SESSION['id'])){
      default: break;
   }
   --> 
-		</div>
-	</div>
+ <div >
+  <form action="kanryo.php" method="POST">	
+   <input type="button" value="借りる" onclick="enre()" />
+   <!-- 
+    switch($_POST['modo']){
+     case 1: echo "借りる";
+     case 2: echo "返す";
+     default: break;
+   } --> 
+   <a href="cancel.php"><input type="button" value="取り消し" /></a>
+  </form>
+ </div>
  </body>
 </html>
+
